@@ -297,7 +297,7 @@ void R_UnRegister (void)
 R_Init
 ===============
 */
-qboolean R_Init( void *hInstance, void *wndProc )
+int R_Init( void *hInstance, void *wndProc )
 {
 	R_InitImages ();
 	Mod_Init ();
@@ -334,7 +334,7 @@ qboolean R_Init( void *hInstance, void *wndProc )
 
 	ri.Con_Printf (PRINT_ALL, "ref_soft version: "REF_VERSION"\n");
 
-	return true;
+	return 0;
 }
 
 /*
@@ -866,13 +866,13 @@ void R_EdgeDrawing (void)
 	else
 	{
 		r_edges =  (edge_t *)
-				(((long)&ledges[0] + CACHE_SIZE - 1) & ~(CACHE_SIZE - 1));
+				(((uintptr_t)&ledges[0] + CACHE_SIZE - 1) & ~(CACHE_SIZE - 1));
 	}
 
 	if (r_surfsonstack)
 	{
 		surfaces =  (surf_t *)
-				(((long)&lsurfs[0] + CACHE_SIZE - 1) & ~(CACHE_SIZE - 1));
+				(((uintptr_t)&lsurfs[0] + CACHE_SIZE - 1) & ~(CACHE_SIZE - 1));
 		surf_max = &surfaces[r_cnumsurfs];
 	// surface 0 doesn't really exist; it's just a dummy because index 0
 	// is used to indicate no edge attached to surface

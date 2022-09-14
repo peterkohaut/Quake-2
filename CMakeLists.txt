@@ -2,18 +2,24 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Quake-2)
 
-add_definitions(-DCPUSTRING="x86_64" -DC_ONLY)
+add_definitions(-DC_ONLY) #-DCPUSTRING="x86_64" 
+
+if (MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS /wd4996 /wd4267)
+endif()
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
-    set(GAME "gamex64")
-else()
-    set(GAME "gamex86")
-endif()
+set(GAME "game${CMAKE_C_COMPILER_ARCHITECTURE_ID}")
+# if(CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+#     set(GAME "gamex64")
+# else()
+#     set(GAME "gamex86")
+# endif()
 
 add_subdirectory(ref_gl)
 add_subdirectory(ref_soft)
